@@ -1,0 +1,135 @@
+<div class="container">
+    <h1>Flights</h1>
+    <br><br><br>
+    <table class="table" style="border-style: solid; border-radius: 300px;">
+        <thead>
+            <tr class="bg-info">
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="Add Flight " (click)="addFlight()"></th>
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="Update Flight "(click)="updateFlight()"></th>
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="Delete Flight " (click)="deleteFlight()"></th>
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="Search Flight " (click)="searchFlight()"></th>
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="View All Flight" (click)="viewFlight()"></th>
+            </tr>
+        </thead>
+    </table>
+    <div class="container" [ngSwitch]="switch">
+        <div *ngSwitchCase="'add'">
+            <div class="container" style="border-style: solid;">
+                <h1 style="text-align: center;">Add Flight </h1>
+                <form class="form">
+                    Flight Number:<input type="number" class="form-control col-sm-4" name="flightNumber" [(ngModel)]="flightNumber"><br>
+                    Carrier Name:<input type="text" class="form-control col-sm-4" name="carrierName" [(ngModel)]="carrierName"><br>
+                    Flight Model:<input type="text" class="form-control col-sm-4" name="flightModel" [(ngModel)]="flightModel"><br>
+                    Seat Capacity:<input type="number" class="form-control col-sm-4" name="seatCapacity" [(ngModel)]="seatCapacity"><br>
+                    Status:<input type="text" class="form-control col-sm-4" name="status" [(ngModel)]="status"><br>
+                    
+                    <input type="button" class="btn btn-warning" (click)="add()" value="Add"><br><br><br>
+                </form>
+            </div>
+        </div>
+        <div *ngSwitchCase="'update'">
+            <div class="container" style="border-style: solid;">
+                <h1 style="text-align: center;">Update Flight </h1>
+                <form class="form">
+                     Flight Number:<input type="number" class="form-control col-sm-4" name="flightNumber" [(ngModel)]="flightNumber"><br>
+                    <input type="button" class="btn btn-warning" (click)="search()" value="search"><br><br><br>
+                </form>
+                <div *ngIf="bool">
+                    <h3>Details:</h3>
+                    <form>
+                            
+                Carrier Name:<input type="text" class="form-control col-sm-4" value="{{carrierName}}" name="carrierName" [(ngModel)]="carrierName"><br>
+                Flight Model:<input type="text" class="form-control col-sm-4" value="{{flightModel}}" name="flightModel" [(ngModel)]="flightModel"><br>
+                Seat Capacity:<input type="number" class="form-control col-sm-4" value="{{seatCapacity}}" name="seatCapacity" [(ngModel)]="seatCapacity"><br>
+                Status:<input type="text" class="form-control col-sm-4" value="{{status}}" name="status" name="status" [(ngModel)]="status"><br>
+                <input type="button" class="btn btn-warning" value="Update" (click)="update()">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="'delete'">
+            <div class="container" style="border-style: solid;">
+                <form>
+                    <h1 style="text-align: center;">Delete Flight </h1>
+                     Flight Number:<input type="number" class="form-control col-sm-4"  name="flightNumber" [(ngModel)]="flightNumber"><br>
+                    <input type="button" class="btn btn-warning" (click)="delete()" value="Delete">
+                    <br><br><br>
+                </form>
+            </div>
+        </div>
+        <div *ngSwitchCase="'search'">
+            <div class="container" style="border-style: solid;">
+                <form>
+                    <h1 style="text-align: center;">Search Flight </h1>
+                     Flight Number:<input type="number" class="form-control col-sm-4" name="flightNumber" [(ngModel)]="flightNumber"><br>
+                    <input type="button" class="btn btn-warning" (click)="viewNumber()" value="Search">
+                </form>
+                <br><br><br>
+                <div *ngIf="bool2">
+                    <h3>Details:</h3><br>
+                    <table class="table-bordered bg-dark text-white">
+                        <thead>
+                            <tr>
+                                <th>Flight Number</th>
+                                <th>Carrier Name</th>
+                                <th>Flight Model</th>
+                                <th>Seat Capacity</th>
+                                <th>Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{flight1.flightNumber}}</td>
+                                <td>{{flight1.carrierName}}</td>
+                                <td>{{flight1.flightModel}}</td>
+                                <td>{{flight1.seatCapacity}}</td>
+                                <td>{{flight1.status}}</td>
+
+
+                                <!-- <td>{{flightSchedule.flight.flightNumber}}</td>
+                                <td>{{flightSchedule.schedule.sourceAirport.airportCode}}</td>
+                                <td>{{flightSchedule.schedule.destinationAirport.airportCode}}</td>
+                                <td>{{flightSchedule.schedule.arrivalTime}}</td>
+                                <td>{{flightSchedule.schedule.departureTime}}</td>
+                                <td>{{flightSchedule.cost}}</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br><br><br>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="'view'">
+            <table class="table-bordered bg-dark text-white">
+                <thead>
+                    <tr>
+                        <th>Flight Number</th>
+                        <th>Carrier Name</th>
+                        <th>Flight Model</th>
+                        <th>Seat Capacity</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let fs of flightList">
+                        <td>{{fs.flightNumber}}</td>
+                        <td>{{fs.carrierName}}</td>
+                        <td>{{fs.flightModel}}</td>
+                        <td>{{fs.seatCapacity}}</td>
+                        <td>{{fs.status}}</td>
+
+
+                        <!-- <td>{{fs.flight.flightNumber}}</td>
+                        <td>{{fs.schedule.sourceAirport.airportCode}}</td>
+                        <td>{{fs.schedule.destinationAirport.airportCode}}</td>
+                        <td>{{fs.schedule.arrivalTime}}</td>
+                        <td>{{fs.schedule.departureTime}}</td>
+                        <th>{{fs.cost}}</th> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>

@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'flightmanage'`, () => {
+  it(`should have as title 'flightManagement'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('flightmanage');
+    expect(app.title).toEqual('flightManagement');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('flightmanage app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('flightManagement app is running!');
   });
 });

@@ -1,0 +1,183 @@
+<div class="container">
+    <h1>Flight Schedule Management</h1>
+    <br><br><br>
+    <table class="table" style="border-style: solid; border-radius: 300px;">
+        <thead>
+            <tr class="bg-info">
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="Add Flight Schedule" (click)="addFlightSchedule()"></th>
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="Update Flight Schedule"(click)="updateFlightSchedule()"></th>
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="Delete Flight Schedule" (click)="deleteFlightSchedule()"></th>
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="Search Flight Schedule" (click)="searchFlightSchedule()"></th>
+                <th style="text-align: center;"><input type="button" class="btn btn-info" value="View All Flight" (click)="viewFlightSchedule()"></th>
+            </tr>
+        </thead>
+    </table>
+    <div class="container" [ngSwitch]="switch">
+        <div *ngSwitchCase="'add'">
+            <div class="container" style="border-style: solid;">
+                <h1 style="text-align: center;">Add Flight Schedule</h1>
+                <form class="form" #f1="ngForm" (ngSubmit)="add()">
+                    Schedule Flight ID:<input type="number" class="form-control col-sm-4" #sId="ngModel" name="scheduleId" [(ngModel)]="scheduleId" required pattern="[0-9]" minlength="3" maxlength="3">
+                    
+                    <div *ngIf="f1.submitted && sId.invalid">
+                        <div class="text-info" *ngIf="sId.errors.required">Field cannot be empty!!</div>
+                    </div><br>
+
+                    Flight Number:<input type="number" class="form-control col-sm-4" #fNumber="ngModel" name="flightNo" [(ngModel)]="flightNo" pattern="[0-9]" required>
+                    <div *ngIf="f1.submitted && fNumber.invalid">
+                        <div class="text-info" *ngIf="fNumber.errors.required">Field cannot be empty!!</div>
+                    </div><br>
+                    Source Airport:
+                    <select class="form-control col-sm-4" [(ngModel)]="sourceAirportCode" #sAirport="ngModel" name="sourceAirportCode" required>
+                        <option>LKO</option>
+                        <option>BOM</option>
+                        <option>NDL</option>
+                        <option>BLR</option>
+                    </select>
+                    <div *ngIf="f1.submitted && sAirport.invalid">
+                        <div class="text-info" *ngIf="sAirport.errors.required">Field cannot be empty!!</div>
+                    </div><br>
+                    Destination airport:
+                    <select class="form-control col-sm-4" [(ngModel)]="destinationAirportCode" #dAirport="ngModel" name="destinationAirportCode" required>
+                        <option>LKO</option>
+                        <option>BOM</option>
+                        <option>NDL</option>
+                        <option>BLR</option>
+                    </select>
+                    <div *ngIf="f1.submitted && dAirport.invalid">
+                        <div class="text-info" *ngIf="dAirport.errors.required">Field cannot be empty!!</div>
+                    </div><br>
+                    Departure Time:<input type="datetime-local" class="form-control col-sm-4" #dTime="ngModel" [(ngModel)]="departureTime" name="departureTime" required>
+                    <div *ngIf="f1.submitted && dTime.invalid">
+                        <div class="text-info" *ngIf="dTime.errors.required">Field cannot be empty!!</div>
+                    </div><br>
+                    Arrival Time:<input type="datetime-local" class="form-control col-sm-4" #aTime="ngModel" [(ngModel)]="arrivalTime" name="arrivalTime" required>
+                    <div *ngIf="f1.submitted && aTime.invalid">
+                        <div class="text-info" *ngIf="aTime.errors.required">Field cannot be empty!!</div>
+                    </div><br>
+                    Ticket Cost:<input type="text" class="form-control col-sm-4" #tCost="ngModel" [(ngModel)]="cost" name="cost" required>
+                    <div *ngIf="f1.submitted && tCost.invalid">
+                        <div class="text-info" *ngIf="tCost.errors.required">Field cannot be empty!!</div>
+                    </div><br>
+                    <input type="submit" class="btn btn-warning" value="Add"><br><br><br>
+                </form>
+            </div>
+        </div>
+        <div *ngSwitchCase="'update'">
+            <div class="container" style="border-style: solid;">
+                <h1 style="text-align: center;">Update Flight Schedule</h1>
+                <form class="form" #f2="ngForm" (ngSubmit)="search()">
+                    Schedule Flight ID:<input type="number" class="form-control col-sm-4" #sId="ngModel" name="scheduleId" [(ngModel)]="scheduleId" pattern="[0-9]" minlength="3" maxlength="3" required>
+                    <div *ngIf="f2.submitted && sId.invalid">
+                        <div class="text-info" *ngIf="sId.errors.required">Field cannot be empty!!</div>
+                    </div><br>
+                    <input type="submit" class="btn btn-warning" value="Search"><br><br><br>
+                </form>
+                <div *ngIf="bool">
+                    <h3>Details:</h3>
+                    <form>
+                        Source Airport:<select class="form-control col-sm-4" name="sourceAirportCode" [(ngModel)]="sourceAirportCode">
+                            <option disabled selected>{{sourceAirportCode}}</option>
+                            <option>LKO</option>
+                            <option>BMO</option>
+                            <option>NDL</option>
+                            <option>BLR</option>
+                        </select><br>
+                        Destination Airport:<select class="form-control col-sm-4" name="destinationAirportCode" [(ngModel)]="destinationAirportCode">
+                            <option disabled selected>{{destinationAirportCode}}</option>
+                            <option>LKO</option>
+                            <option>BMO</option>
+                            <option>NDL</option>
+                            <option>BLR</option>
+                        </select><br>
+                        Arrival Time:<input type="datetime-local" value="{{arrivalTime}}" class="form-control col-sm-4" name="arrivalTime"[(ngModel)]="arrivalTime"><br>
+                        Destination Time:<input type="datetime-local" value="{{departureTime}}" class="form-control col-sm-4" name="departureTime" [(ngModel)]="departureTime"><br>
+                        Cost:<input type="text" class="form-control col-sm-4" value="{{cost}}" name="cost" [(ngModel)]="cost"><br>
+                        <input type="submit" class="btn btn-warning" value="Update" (click)="update()">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="'delete'">
+            <div class="container" style="border-style: solid;">
+                <form #f3="ngForm" (ngSubmit)="delete()">
+                    <h1 style="text-align: center;">Delete Flight Schedule</h1>
+                    Schedule Flight ID:<input type="number" class="form-control col-sm-4" #sId="ngModel" name="scheduleId" [(ngModel)]="scheduleId" required pattern="[0-9]" minlength="3" maxlength="3">
+                    <div *ngIf="f3.submitted && sId.invalid">
+                        <div class="text-info" *ngIf="sId.errors.required">Field cannot be empty!!</div>
+                    </div><br>
+                    <input type="submit" class="btn btn-warning" (click)="delete()" value="Delete">
+                    <br><br><br>
+                </form>
+            </div>
+        </div>
+        <div *ngSwitchCase="'search'">
+            <div class="container" style="border-style: solid;">
+                <form #f4="ngForm" (ngSubmit)="viewId()">
+                    <h1 style="text-align: center;">Search Flight Schedule</h1>
+                    Schedule Flight ID:<input type="number" class="form-control col-sm-4" name="scheduleId" [(ngModel)]="scheduleId" #sId="ngModel" required minlength="3" maxlength="3" pattern="[0-9]"><br>
+                    <div *ngIf="f4.submitted && sId.invalid">
+                        <div class="text-info" *ngIf="sId.errors.required">Field cannot be empty!!</div>
+                    </div>
+                    <input type="submit" class="btn btn-warning" value="Search">
+                </form>
+                <br><br><br>
+                <div *ngIf="bool2">
+                    <h3>Details:</h3><br>
+                    <table class="table-bordered bg-dark text-white" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Schedule Flight ID</th>
+                                <th>Flight No</th>
+                                <th>Source Airport</th>
+                                <th>Destination Airport</th>
+                                <th>Arrival Time</th>
+                                <th>Departure Time</th>
+                                <th>Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{flightSchedule.scheduleFlightId}}</td>
+                                <td>{{flightSchedule.flight.flightNumber}}</td>
+                                <td>{{flightSchedule.schedule.sourceAirport.airportCode}}</td>
+                                <td>{{flightSchedule.schedule.destinationAirport.airportCode}}</td>
+                                <td>{{flightSchedule.schedule.arrivalTime}}</td>
+                                <td>{{flightSchedule.schedule.departureTime}}</td>
+                                <td>{{flightSchedule.cost}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br><br><br>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="'view'">
+            <table class="table-bordered bg-dark text-white" style="width: 100%; border-style: solid;">
+                <thead>
+                    <tr>
+                        <th>Schedule Flight ID</th>
+                        <th>Flight No</th>
+                        <th>Source Airport</th>
+                        <th>Destination Airport</th>
+                        <th>Arrival Time</th>
+                        <th>Departure Time</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let fs of flightScheduleList">
+                        <td>{{fs.scheduleFlightId}}</td>
+                        <td>{{fs.flight.flightNumber}}</td>
+                        <td>{{fs.schedule.sourceAirport.airportCode}}</td>
+                        <td>{{fs.schedule.destinationAirport.airportCode}}</td>
+                        <td>{{fs.schedule.arrivalTime}}</td>
+                        <td>{{fs.schedule.departureTime}}</td>
+                        <th>{{fs.cost}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>
